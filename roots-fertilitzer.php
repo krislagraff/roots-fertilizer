@@ -42,15 +42,30 @@ function rootsfertilizer_widgets_init() {
   ));
 }
 
-/**
- * Remove extra menus / maintain source control / disble access to file changes when on production server
- */
+
 function rootsfertilizer_admin_init() {
-  if (strstr(site_url(),'localhost'))
-    return;
-  define('DISALLOW_FILE_EDIT', true);
-  define('DISALLOW_FILE_MODS', true);
-  //perhaps define('FORCE_SSL_ADMIN',true);
+  /**
+   * Standard image sizes adjusted for standard bootstrap widths
+   * Thumbnails are span2xspan2
+   * Medium is span3 width
+   * Large is span4 width
+   * Upload full resolution for most images.  Images that will be shown at full resolution should be properly resized before uploading
+   */
+  update_option('thumbnail_size_w', 170);
+  update_option('thumbnail_size_h', 170);
+  update_option('medium_size_w', 270);
+  update_option('medium_size_h', 9999);
+  update_option('large_size_w', 370);
+  update_option('large_size_h', 9999);
+
+  /**
+   * Remove extra menus / maintain source control / disble access to file changes when on production server
+   */
+  if (!strstr(site_url(),'localhost')){
+    define('DISALLOW_FILE_EDIT', true);
+    define('DISALLOW_FILE_MODS', true);
+    //perhaps define('FORCE_SSL_ADMIN',true);
+  }
 }
 
 
@@ -98,5 +113,3 @@ function has_children(){
   else 
     return false;
 }
-
-
