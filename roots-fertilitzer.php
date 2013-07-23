@@ -46,9 +46,57 @@ function rootsfertilizer_widgets_init() {
  * Remove extra menus / maintain source control / disble access to file changes when on production server
  */
 function rootsfertilizer_admin_init() {
-  if (!strstr(site_url(),'localhost'))
+  if (strstr(site_url(),'localhost'))
     return;
   define('DISALLOW_FILE_EDIT', true);
   define('DISALLOW_FILE_MODS', true);
   //perhaps define('FORCE_SSL_ADMIN',true);
 }
+
+
+/**
+ * The following are to extend WordPress conditional tags
+ */
+
+
+/**
+ * see http://codex.wordpress.org/Conditional_Tags#Testing_for_sub-Pages snippet 2
+ */
+function is_subpage() {
+    global $post;
+    if ( is_page() && $post->post_parent ) {
+        return $post->post_parent;
+    } else {  
+        return false;
+    }
+}
+
+/**
+ * see http://codex.wordpress.org/Conditional_Tags#Testing_for_sub-Pages snippet 4
+ */
+function is_tree( $pid ) {
+    global $post;
+    if ( is_page($pid) )
+        return true;
+    $anc = get_post_ancestors( $post->ID );
+    foreach ( $anc as $ancestor ) {
+        if( is_page() && $ancestor == $pid ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * determine if current page has child pages
+ */
+function has_children(){
+  global $post;
+  $children = get_pages('child_of='.$post->ID);
+  if( count( $children ) != 0 ) 
+    return true;
+  else 
+    return false;
+}
+
+
