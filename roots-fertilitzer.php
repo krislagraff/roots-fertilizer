@@ -54,6 +54,8 @@ function rootsfertilizer_admin_init() {
   rootsfertilizer_update_options();
   rootsfertilizer_file_permissions();
   rootsfertilizer_theme_caps();
+  add_post_type_support( 'page', 'excerpt' );
+
 }
 
   /**
