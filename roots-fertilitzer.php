@@ -9,9 +9,9 @@ License: GPL2
 Text Domain: roots-fertilizer
 */
 
-add_filter( 'plugin_row_meta', 'rootsfertilizer_plugin_row_meta', 10, 2 ); 
+add_filter( 'plugin_row_meta', 'rootsfertilizer_plugin_row_meta', 10, 2 );
 add_action('widgets_init', 'rootsfertilizer_widgets_init');
-add_action('admin_init', 'rootsfertilizer_admin_init'); 
+add_action('admin_init', 'rootsfertilizer_admin_init');
 
 /**
  * Add a documentation link to Git Hub for the plugin
@@ -29,7 +29,7 @@ function rootsfertilizer_plugin_row_meta($links, $file) {
     }
     return $links;
 }
- 
+
 /**
  * Initialize widgits
  * @return [type] [description]
@@ -81,13 +81,13 @@ function rootsfertilizer_admin_init() {
    */
   function rootsfertilizer_theme_caps() {
       $role = get_role( 'contributor');
-      $role->add_cap( 'gravityforms_view_entries'); 
-      $role->add_cap( 'gravityforms_edit_entries'); 
+      $role->add_cap( 'gravityforms_view_entries');
+      $role->add_cap( 'gravityforms_edit_entries');
 
-      $role->add_cap( 'gravityforms_view_entry_notes'); 
+      $role->add_cap( 'gravityforms_view_entry_notes');
       $role->add_cap( 'gravityforms_edit_entry_notes');
 
-      $role->add_cap( 'gravityforms_export_entries'); 
+      $role->add_cap( 'gravityforms_export_entries');
   }
 
   /**
@@ -116,7 +116,7 @@ function is_subpage() {
     global $post;
     if ( is_page() && $post->post_parent ) {
         return $post->post_parent;
-    } else {  
+    } else {
         return false;
     }
 }
@@ -146,8 +146,31 @@ function is_tree( $pid ) {
 function has_children(){
   global $post;
   $children = get_pages('child_of='.$post->ID);
-  if( count( $children ) != 0 ) 
+  if( count( $children ) != 0 )
     return true;
-  else 
+  else
     return false;
 }
+
+/**
+ * Remove TinyMCE buttons
+ */
+
+
+  /**
+   * Remove forecolor button
+   * @return [type] [description]
+   */
+
+function rootsfertilizer_tinymce_buttons($buttons)
+ {
+      //Remove the text color selector
+      $remove = 'forecolor';
+
+      //Find the array key and then unset
+      if ( ( $key = array_search($remove,$buttons) ) !== false )
+        unset($buttons[$key]);
+
+      return $buttons;
+ }
+add_filter('mce_buttons_2','rootsfertilizer_tinymce_buttons');
