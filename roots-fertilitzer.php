@@ -162,8 +162,7 @@ function has_children(){
    * @return [type] [description]
    */
 
-function rootsfertilizer_tinymce_buttons($buttons)
- {
+function rootsfertilizer_tinymce_buttons($buttons) {
       //Remove the text color selector
       $remove = 'forecolor';
 
